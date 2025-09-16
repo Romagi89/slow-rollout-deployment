@@ -15,3 +15,17 @@
 
 ### Step 3: Update DNS 
 - Go to the DNS provider of your domain and update the DNS record for the GitLab domain/subdomain with the Elasti IP you have associated just before.
+
+### Step 4: Access the VM (using SSH)
+- Go to the directory where you have downloaded the .pem key. Change the permission of the key to '400'. For e.g.
+```
+cd Downloads
+chmod 400 gitlab-key.pem
+ssh -i "gitlab-key.pem" ubuntu@ec2-98-85-13-167.compute-1.amazonaws.com
+```
+Type 'yes' in the prompt and hit enter.
+
+- Run the following basic commands in the EC2 instance terminal
+```
+sudo apt update -y && sudo apt upgrade -y
+```
