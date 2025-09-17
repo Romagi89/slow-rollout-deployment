@@ -15,6 +15,7 @@
 
 ### Step 3: Update DNS 
 - Go to the DNS provider of your domain and update the DNS record for the GitLab domain/subdomain with the Elasti IP you have associated just before.
+NOTE: If you are using CloudFlare make sure you turn of the proxy (set DNS only)
 
 ### Step 4: Access the VM (using SSH)
 - Go to the directory where you have downloaded the .pem key. Change the permission of the key to '400'. For e.g.
@@ -29,3 +30,12 @@ Type 'yes' in the prompt and hit enter.
 ```
 sudo apt update -y && sudo apt upgrade -y
 ```
+### Step 5: Install GitLab on the EC2 instance along with LetsEncrypt SSL
+- Installation guide : https://docs.gitlab.com/install/package/ubuntu/?tab=Enterprise+Edition
+- Installation steps:-
+  ```
+  sudo apt install -y curl
+  curl "https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh" | sudo bash
+  sudo EXTERNAL_URL="https://gitlab.swiftpearls.com" apt install gitlab-ee
+  ```
+
