@@ -38,4 +38,13 @@ sudo apt update -y && sudo apt upgrade -y
   curl "https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh" | sudo bash
   sudo EXTERNAL_URL="https://gitlab.swiftpearls.com" apt install gitlab-ee
   ```
+- Get the Initial root password to login to the GitLab
+  ```
+  sudo cat /etc/gitlab/initial_root_password
+  ```
+- Create an Admin User and remove the default root user (Optinal but Recommended)
+  - Login to the GitLab withe the initial password and the root user > Admin > Users > Add New
+  - After the new user is created edit the user and set password. Users > New User > Edit > Password > Enter the password and save.
+  - Logout of the root user and login with the new admin user. Delete the old user. Gitlab > Admin > Uses > Root user > Edit > 
+    
 
