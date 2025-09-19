@@ -45,6 +45,29 @@ sudo apt update -y && sudo apt upgrade -y
 - Create an Admin User and remove the default root user (Optinal but Recommended)
   - Login to the GitLab withe the initial password and the root user > Admin > Users > Add New
   - After the new user is created edit the user and set password. Users > New User > Edit > Password > Enter the password and save.
-  - Logout of the root user and login with the new admin user. Delete the old user. Gitlab > Admin > Uses > Root user > Edit > 
+  - Logout of the root user and login with the new admin user. Delete the old user. Steps:- Gitlab > Admin > Uses > Root user > click n the three vertical dots > Delete User.
+    
+### Step 6: Configure a GitLab Runner and register it with the GitLab
+- GitLab Dashboard > Admin > CI/CD > Runners > Create Instance Runner
+  - Tags : Tick on 'Run untagged jobs'
+  - Leave all the others fields empty and all the other checkbox unchecked and click on the 'Create Runner' button.
+  - SSH to the same server where GitLab is installed (for demo purpose only. For production configure separate server). Then run the commands as specified in Step1. For e.g.
+    ```
+    ssh -i "gitlab-key.pem" ubuntu@ec2-98-85-13-167.compute-1.amazonaws.com
+    
+    sudo gitlab-runner register  --url https://gitlab.swiftpearls.com  --token glrt-S5shDi7RTLnf09ue85dTsm86MQp0OjEKdTozCw.01.120xjpoan
+    ```
+    - If you get ``` sudo: gitlab-runner: command not found ```, click on the 'How do I install GitLab Runner?' link just above the Step1 and then copy and paste the commands. Then run the above command again.
+    - ``` Enter the GitLab instance URL (for example, https://gitlab.com/):
+      [https://gitlab.swiftpearls.com]: <Just hit enter>
+      Enter a name for the runner. This is stored only in the local config.toml file:
+      [ip-172-31-29-77]: <Just hit enter>
+      Enter an executor: custom, ssh, parallels, docker, docker+machine, kubernetes, instance, shell, virtualbox, docker-windows, docker-autoscaler: docker
+      Enter the default Docker image (for example, ruby:3.3): roma599/slowrollout-ci:latest
+      ```
+      [You will see the 'Runner registered successfully' message]
+
+### Step 7:  Add SSH Key, create a repo and commit the demo app files 
+  
     
 
