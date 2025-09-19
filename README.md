@@ -135,6 +135,11 @@ sudo apt update -y && sudo apt upgrade -y
   --role-arn "$EKS_ROLE_ARN" \
   --resources-vpc-config subnetIds="$CONTROL_PLANE_SUBNETS"
   ```
+  - Check the status of the cluster
+    ``` aws eks describe-cluster --name slow-rollout-cluster --region us-east-1 --query 'cluster.status' --output text  ```
+
+  - Stop the cluster (to save billing)
+  - Delete the cluster
     
 
   
