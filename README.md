@@ -58,7 +58,8 @@ sudo apt update -y && sudo apt upgrade -y
     sudo gitlab-runner register  --url https://gitlab.swiftpearls.com  --token glrt-S5shDi7RTLnf09ue85dTsm86MQp0OjEKdTozCw.01.120xjpoan
     ```
     - If you get ``` sudo: gitlab-runner: command not found ```, click on the 'How do I install GitLab Runner?' link just above the Step1 and then copy and paste the commands. Then run the above command again.
-    - ``` Enter the GitLab instance URL (for example, https://gitlab.com/):
+    - ```
+      Enter the GitLab instance URL (for example, https://gitlab.com/):
       [https://gitlab.swiftpearls.com]: <Just hit enter>
       Enter a name for the runner. This is stored only in the local config.toml file:
       [ip-172-31-29-77]: <Just hit enter>
@@ -66,8 +67,36 @@ sudo apt update -y && sudo apt upgrade -y
       Enter the default Docker image (for example, ruby:3.3): roma599/slowrollout-ci:latest
       ```
       [You will see the 'Runner registered successfully' message]
+  - To verify, Click on View Runner. Alternatively, Gitlab Dashboard > Admin > CI/CD > Runners 
+    You may see the Status as 'online/idle'. That's good.
 
 ### Step 7:  Add SSH Key, create a repo and commit the demo app files 
+- From your local PC's terminal, Generate a SSH Key Pair using the following commands:-
+  ```
+  $ cd ~/.ssh/
+  ssh-keygen -t rsa -b 2048 -C "swiftpearls"
+  Generating public/private rsa key pair.
+  Enter file in which to save the key (/home/sanjaya-regmi/.ssh/id_rsa): swiftpearls
+  <just keep hitting enter>
+  $ cat swiftpearls.pub
+  <Copy the key somewhere in your PC for e.g. Notepad>
+  ```
+- Add the SSH pubic key to GitLab.
+  - GitLab > Your Profile icon > Preferences > SSH Keys > Add New key > Paste the key from Notepad to box. Leave all the other fields auto filled. Remove the Expiration date. > Add Key
+
+- Create a new repo. First create a new group.
+  - GitLab Dashboard > Admin > Groups > New Group > Create Group. Give a name for e.g. demos. Keep it private > select 'My company or tem' > Create Group
+  - For new repo in the group: New Project > Create blank Project > Give a project name such as 'Canary Slow Rollout Demo'. Keep easy Project Slug such as 'slow-rollout-demo' > Check 'Initialize repository with a README' > Create Project
+
+- Clone the repo.
+  - Go to the repo > Code > copy the link/command in the 'Clone with SSH' box.
+  - Go to your PC's terminal and clone the repo.
+    ```
+    git clone git@gitlab.swiftpearls.com:demos/slow-rollout-demo.git
+    ```
+  - 
+    
+
   
     
 
