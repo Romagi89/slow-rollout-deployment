@@ -110,31 +110,18 @@ sudo apt update -y && sudo apt upgrade -y
       $ aws ec2 describe-instances --region us-east-1 --query 'Reservations[].Instances[].{ID:InstanceId,State:State.Name}' --output table 
       ```
   - Create an EKS cluster with 2 worker nodes each of 4GB or RAM and 2vCPUs.
-  ```
-  # Set config output to JSON
-  aws configure set output json
-
-  # 1) Create (or reuse) the EKS control-plane IAM role and capture its ARN
-  TRUST='{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"eks.amazonaws.com"},"Action":["sts:AssumeRole","sts:TagSession"]}]}'
-  ROLE_NAME="EKS-ClusterRole-my-eks-cluster"
-  aws iam create-role --role-name "$ROLE_NAME" --assume-role-policy-document "$TRUST" || true
-  aws iam attach-role-policy --role-name "$ROLE_NAME" --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy || true
-  EKS_ROLE_ARN=$(aws iam get-role --role-name "$ROLE_NAME" --query 'Role.Arn' --output text)
-
-  # 2) Use default VPC, but pick ONLY subnets in EKS-supported AZs for the control plane
-  REGION="us-east-1"
-  VPC_ID=$(aws ec2 describe-vpcs --region "$REGION" --filters Name=isDefault,Values=true --query 'Vpcs[0].VpcId' --output text)
-  CONTROL_PLANE_SUBNETS=$(aws ec2 describe-subnets --region "$REGION" \
-  --filters Name=vpc-id,Values="$VPC_ID" Name=availability-zone,Values=us-east-1a,us-east-1b,us-east-1d,us-east-1f \
-  --query 'join(`,`, Subnets[].SubnetId)' --output text)
-
-  # 3) Create the cluster (let EKS create the cluster SG)
-  aws eks create-cluster \
-  --name slow-rollout-cluster \
-  --region "$REGION" \
-  --role-arn "$EKS_ROLE_ARN" \
-  --resources-vpc-config subnetIds="$CONTROL_PLANE_SUBNETS"
-  ```
+    - Install the tool 'eksctl'. The installation method can be different depending upon your Operating System. For official guide, refer to the link:- https://eksctl.io/installation/
+    - Create a cluster as per your requirement using the eksctl command. For e.g.
+       ```
+       # Create Cluster
+       eksctl create cluster --name pm-policies-cluster --region us-east-1 --node-type t3.medium --nodes 2
+       NOTE: It may take 10-15 minutes to complete the cluster creation
+       
+       # Check the status
+       eksctl get cluster 
+       eksctl get cluster --name pm-policies-cluster --region us-east-1
+       eksctl get cluster --name pm-policies-cluster --region us-east-1 -o yaml
+      ```
   - Check the status of the cluster
     ``` aws eks describe-cluster --name slow-rollout-cluster --region us-east-1 --query 'cluster.status' --output text  ```
 
