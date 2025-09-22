@@ -127,6 +127,20 @@ sudo apt update -y && sudo apt upgrade -y
 
   - Stop the cluster (to save billing)
   - Delete the cluster
+  - Get the App Front-end endpoint URL or IP
+  ```
+  # Get the endpoint IP or URL
+  kubectl -n ingress-nginx get svc ingress-nginx-controller \
+    -o jsonpath='{.status.loadBalancer.ingress[0].hostname}{"\n"}'
+   # Dig IP for the endpoint or LB URL
+  $ dig +short <endpoint URL>
+
+  # Make an entry on /etc/hosts file (for e.g.)
+  $ sudo vi /etc/hosts
+    35.168.67.30 pm-policies.example.com
+    3.210.167.177 pm-policies.example.com
+  ```
+  - Go to the browser and enter the URL:- http://pm-policies.example.com. You will see whatever is there in the Home page of the app.
     
 
   
