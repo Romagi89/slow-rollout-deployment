@@ -125,8 +125,11 @@ sudo apt update -y && sudo apt upgrade -y
   - Check the status of the cluster
     ``` aws eks describe-cluster --name slow-rollout-cluster --region us-east-1 --query 'cluster.status' --output text  ```
 
-  - Stop the cluster (to save billing)
   - Delete the cluster
+    ```
+    eksctl delete cluster --name <cluster-name> --region <region>
+    For e.g. $ eksctl delete cluster --name pm-policies-cluster --region us-east-1
+    ```
   - Get the App Front-end endpoint URL or IP
   ```
   # Get the endpoint IP or URL
